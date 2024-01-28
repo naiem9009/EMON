@@ -1,11 +1,12 @@
-import express, { Request, Response } from "express"
-import path from "path"
-import morgan from "morgan"
-import auth_routes from "./routes/auth.route"
-import admin_routes from "./routes/admin.route"
+const express = require('express')
+const path = require('path')
+const morgan = require('morgan')
+const auth_routes = require("./routes/auth.route")
+const admin_routes = require('./routes/admin.route')
 const app = express()
 
-import methodOverride from "method-override"
+const methodOverride = require("method-override")
+
 
 
 
@@ -18,6 +19,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 
 app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 
 
 
@@ -27,10 +29,10 @@ app.use('/admin', admin_routes)
 
 
 
-app.get('/', (req:Request, res:Response) => {
+app.get('/', (req, res) => {
     res.render('index')
 })
-app.get('/login', (req:Request, res:Response) => {
+app.get('/login', (req, res) => {
     res.render('admin/auth/login')
 })
 

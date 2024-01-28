@@ -1,10 +1,9 @@
-import { Router } from "express";
-const router = Router()
+const router = require('express').Router()
 
-import {
+const {
     loginController,
     // registerController
-} from "../controllers/auth.controller"
+} = require("../controllers/auth.controller")
 
 
 
@@ -13,10 +12,4 @@ router.post('/login', loginController)
 // router.post('/register', registerController)
 
 
-
-
-
-
-
-
-export = router
+module.exports = router

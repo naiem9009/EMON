@@ -1,7 +1,6 @@
-import { Router } from "express";
-const router = Router()
+const router = require('express').Router()
 
-import {
+const {
     dashboard,
     about,
     blog,
@@ -14,8 +13,8 @@ import {
     skill,
     team
     // registerController
-} from "../controllers/admin.controller"
-import { image_upload }  from "../utils/func.utils";
+} = require("../controllers/admin.controller")
+const { image_upload } = require("../utils/func.utils");
 
 
 
@@ -44,15 +43,4 @@ router.get('/service', service)
 router.get('/skill', skill)
 router.get('/team', team)
 
-
-
-
-
-
-
-
-
-
-
-
-export = router
+module .exports = router

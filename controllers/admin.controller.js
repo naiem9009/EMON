@@ -1,18 +1,16 @@
-import { PrismaClient } from "@prisma/client";
+const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient()
 
-import { Request, Response } from "express";
 
 
 
-
-export const dashboard = (req:Request, res:Response) => {
+const dashboard = (req, res) => {
     res.status(200).render('admin/dashboard/index')
 }
 
 
 
-export const about = (req:Request, res:Response) => {
+const about = (req, res) => {
     if (req.method === 'GET') {
         prisma.about.findFirst({include: {personal_info: true}}).then(aboutData => {
             
@@ -22,7 +20,7 @@ export const about = (req:Request, res:Response) => {
 
     if (req.method === 'PUT') {
         const {id} = req.params
-        const {filename}:any = req.file
+        const {filename} = req.file
         const { description, name, date_of_birth, address, zip_code, email, number } = req.body
 
         const image_url = req.protocol + '://' + req.get('host') + `/uploads/${filename}`;
@@ -49,7 +47,7 @@ export const about = (req:Request, res:Response) => {
 
 
 
-export const blog = (req:Request, res:Response) => {
+const blog = (req, res) => {
     if (req.method === 'GET') {
         prisma.blog.findMany().then(blogData => {
             res.status(200).render('admin/dashboard/blog', {blog: blogData})
@@ -59,7 +57,7 @@ export const blog = (req:Request, res:Response) => {
 
     if (req.method === 'POST') {
         const {blog_image, title, description} = req.body
-        const {filename}:any = req.file
+        const {filename} = req.file
 
         const image_url = req.protocol + '://' + req.get('host') + `/uploads/${filename}`;
         prisma.blog.create({
@@ -82,9 +80,9 @@ export const blog = (req:Request, res:Response) => {
     }
 }
 
-export const contact = (req:Request, res:Response) => {}
+const contact = (req, res) => {}
 
-export const feedback = (req:Request, res:Response) => {
+const feedback = (req, res) => {
     if (req.method === 'GET') {
         const feedbackData = [
             {
@@ -109,9 +107,9 @@ export const feedback = (req:Request, res:Response) => {
     }
 }
 
-export const footer = (req:Request, res:Response) => {}
+const footer = (req, res) => {}
 
-export const project = (req:Request, res:Response) => {
+const project = (req, res) => {
     if (req.method === 'GET') {
         const projectData = [
             {
@@ -135,7 +133,7 @@ export const project = (req:Request, res:Response) => {
 }
 
 
-export const satisfy = (req:Request, res:Response) => {
+const satisfy = (req, res) => {
     if (req.method === 'GET') {
         prisma.satisfy.findMany().then(satisfyData => {
             res.status(200).render('admin/dashboard/satisfy', {satisfy: satisfyData})
@@ -180,7 +178,7 @@ export const satisfy = (req:Request, res:Response) => {
     }
 }
 
-export const service = (req:Request, res:Response) => {
+const service = (req, res) => {
     if (req.method === 'GET') {
         const serviceData = [
             {
@@ -202,7 +200,7 @@ export const service = (req:Request, res:Response) => {
     }
 }
 
-export const skill = (req:Request, res:Response) => {
+const skill = (req, res) => {
 
     if (req.method === 'GET') {
         prisma.skill.findMany().then(skillData => {
@@ -228,7 +226,7 @@ export const skill = (req:Request, res:Response) => {
 
 
 
-export const team = (req:Request, res:Response) => {
+const team = (req, res) => {
     if (req.method === 'GET') {
         const teamData = [
             {
@@ -245,4 +243,19 @@ export const team = (req:Request, res:Response) => {
 
         res.status(200).render('admin/dashboard/team', {team: teamData})
     }
+}
+
+
+module.exports = {
+    dashboard,
+    about,
+    blog,
+    contact,
+    feedback,
+    footer,
+    project,
+    satisfy,
+    service,
+    skill,
+    team
 }

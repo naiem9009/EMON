@@ -1,17 +1,16 @@
-import { PrismaClient } from "@prisma/client";
+const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient()
-import { Request, Response } from "express"
-import bcrypt from "bcrypt"
+const bcrypt = require("bcrypt")
 
-export const loginController = (req:Request, res:Response) => {
+const loginController = (req, res) => {
     const {email, password} = req.body
 
-    prisma.user.findUnique({where: {email}}).then( async (user:any) => {
+    prisma.user.findUnique({where: {email}}).then( async (user) => {
         const passCompare = await bcrypt.compare(password, user?.password)
         if (!passCompare) return res.status(200).render('admin/auth/login', {"success": false, "message": "Password Incorrect"})
 
         return res.status(200).render('admin/auth/login', {"success": true, "message": "Login Successful"})
-    }).catch((err:any) => {
+    }).catch((err) => {
         return res.status(200).render('admin/auth/login', {"success": false, "message": "Login failed"} )
     })
     
@@ -35,3 +34,6 @@ export const loginController = (req:Request, res:Response) => {
 
 // }
 
+module.exports = {
+    loginController
+}
