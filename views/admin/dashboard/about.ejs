@@ -1,0 +1,87 @@
+<%- include('common/header', { title: 'About' }) %>
+<%- include('common/sidebar') %>
+
+    <div id="main-content" class="h-full w-full bg-gray-50 relative overflow-y-auto lg:ml-64">
+        <main>
+            <% if (about) { %>
+            
+            <form enctype="multipart/form-data" class="pt-6 px-4" action="/admin/about/<%=about?.id%>?_method=PUT" method="post">
+                
+                <h1 class="text-4xl font-bold ">About me</h1>
+
+                <div id="preview-container" class="grid grid-cols md:grid-cols-2 mt-3 w-1/2 h-1/2">
+                    
+                        <img id="image_preview" class="w-full h-full rounded-md" src="<%= about.image_url %>" alt="">
+                    
+                    
+                </div>
+
+                <div class="mt-5">
+             
+                    <label for="photoChange">
+                        <span class="text-muted text-sm">Photo change</span>
+                        <input accept="image/*" id="image_upload" name="profile_image" id="photoChange" type="file" class="my-3 w-full h-10 border px-3">
+
+                    </label>
+
+                    <input name="name" value="<%= about.personal_info?.name %>" placeholder="Enter Name" type="text" class="my-3 w-full h-10 border px-3">
+           
+                    
+
+                    <textarea name="description" placeholder="Enter About yourself" type="text" class="my-3 w-full h-24 border p-3"><%= about.description %></textarea>
+                    
+                    <label for="">
+                        <span class="text-muted text-sm">Date Of Birth</span>
+                        <input name="date_of_birth" value="<%= about.personal_info?.date_of_birth %>" type="date" class="my-3 w-full h-10 border px-3">
+                    </label>
+
+                    <input name="address" value="<%= about.personal_info?.address %>" placeholder="Enter Address" type="text" class="my-3 w-full h-10 border px-3">
+
+                    <input name="zip_code" value="<%= about.personal_info?.zip_code %>" placeholder="Enter Zip Code" type="text" class="my-3 w-full h-10 border px-3">
+
+                    <input name="email" value="<%= about.personal_info?.email %>" placeholder="Enter Email" type="text" class="my-3 w-full h-10 border px-3">
+
+                    <input name="number" value="<%= about.personal_info?.number %>" placeholder="Enter phone" type="text" class="my-3 w-full h-10 border px-3">
+                </div>
+
+                <input type="submit" value="Save" class="bg-indigo-500 text-white my-3 w-full h-10 border px-3">
+
+
+               
+            </form>
+            <% } %>
+        </main>
+        <script>
+            document.getElementById('image_upload').addEventListener('change', handleImagePreview);
+        
+            function handleImagePreview() {
+              const input = document.getElementById('image_upload');
+              const previewContainer = document.getElementById('preview-container');
+              const previewImage = document.getElementById('image_preview');
+        
+              // Clear previous preview
+              previewContainer.innerHTML = '';
+        
+              const file = input.files[0];
+        
+              if (file) {
+                const reader = new FileReader();
+        
+                reader.onload = function (e) {
+                  const imageUrl = e.target.result;
+        
+                  // Display the image preview
+                  previewImage.src = imageUrl;
+                  previewContainer.appendChild(previewImage);
+                };
+        
+                // Read the image file as a data URL
+                reader.readAsDataURL(file);
+              }
+            }
+          </script>
+    </div>
+
+<%- include('common/footer') %>
+
+
